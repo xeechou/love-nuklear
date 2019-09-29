@@ -1438,9 +1438,9 @@ static int nk_love_window_get_size(lua_State *L)
 static int nk_love_window_get_scroll(lua_State *L)
 {
 	nk_love_assert_argc(lua_gettop(L) == 1);
-	nk_love_assert_context(1);
+	struct nk_love_context *context = nk_love_checkcontext(1);
 	nk_uint offset_x, offset_y;
-	nk_window_get_scroll(&context->nkctx, &offset_x, &offset_y);
+	nk_window_get_scroll(context->nkctx, &offset_x, &offset_y);
 	lua_pushinteger(L, offset_x);
 	lua_pushinteger(L, offset_y);
 	return 2;
@@ -1583,11 +1583,12 @@ static int nk_love_window_set_focus(lua_State *L)
 static int nk_love_window_set_scroll(lua_State *L)
 {
 	nk_love_assert_argc(lua_gettop(L) == 3);
-	nk_love_assert_context(1);
+	struct nk_love_context *context =
+		nk_love_checkcontext(1);
 	nk_uint offset_x, offset_y;
 	offset_x = luaL_checkinteger(L, 2);
 	offset_y = luaL_checkinteger(L, 3);
-	nk_window_set_scroll(&context->nkctx, offset_x, offset_y);
+	nk_window_set_scroll(context->nkctx, offset_x, offset_y);
 	return 0;
 }
 
@@ -1984,10 +1985,11 @@ static int nk_love_group(lua_State *L)
 static int nk_love_group_get_scroll(lua_State *L)
 {
 	nk_love_assert_argc(lua_gettop(L) == 2);
-	nk_love_assert_context(1);
+
+	struct nk_love_context *context = nk_love_checkcontext(1);
 	const char *id = luaL_checkstring(L, 2);
 	nk_uint x_offset, y_offset;
-	nk_group_get_scroll(&context->nkctx, id, &x_offset, &y_offset);
+	nk_group_get_scroll(context->nkctx, id, &x_offset, &y_offset);
 	lua_pushinteger(L, x_offset);
 	lua_pushinteger(L, y_offset);
 	return 2;
@@ -1996,11 +1998,11 @@ static int nk_love_group_get_scroll(lua_State *L)
 static int nk_love_group_set_scroll(lua_State *L)
 {
 	nk_love_assert_argc(lua_gettop(L) == 4);
-	nk_love_assert_context(1);
+	struct nk_love_context *context = nk_love_checkcontext(1);
 	const char *id = luaL_checkstring(L, 2);
-	nk_uint x_offset = luaL_checkint(L, 3);
-	nk_uint y_offset = luaL_checkint(L, 4);
-	nk_group_set_scroll(&context->nkctx, id, x_offset, y_offset);
+	nk_uint x_offset = luaL_checkinteger(L, 3);
+	nk_uint y_offset = luaL_checkinteger(L, 4);
+	nk_group_set_scroll(context->nkctx, id, x_offset, y_offset);
 	return 0;
 }
 
