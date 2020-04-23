@@ -22,7 +22,22 @@
 #define NK_INCLUDE_STANDARD_IO
 #define NK_INCLUDE_STANDARD_VARARGS
 
+#if defined(__GNUC__) /* needed for supress warnings in nuklear headers */
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#elif defined (__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+
 #include "nuklear/nuklear.h"
+
+#if defined(__GNUC__)
+#pragma GCC diagnostic pop
+#elif defined (__clang__)
+#pragma clang diagnostic pop
+#endif
+
 #else
 #pragma message "nuklear already included"
 #endif
