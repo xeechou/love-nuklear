@@ -26,9 +26,11 @@ LUALIB_API void nk_love_getfield_ui(struct lua_State *L);
 #if defined(__GNUC__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wunused-variable"
 #elif defined(__clang__)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wsign-compare"
+#pragma clang diagnostic ignored "-Wunused-variable"
 #endif
 
 #include "nuklear_love.c"

@@ -15,6 +15,12 @@
 #include <lua.h>
 #include <lauxlib.h>
 
+/** Visibility */
+#if defined(__GNUC__) && __GNUC__ >= 4
+#define NK_LOVE_EXPORT __attribute__ ((visibility("default")))
+#else
+#define NK_LOVE_EXPORT
+#endif
 
 #ifndef NK_NUKLEAR_H_
 #define NK_INCLUDE_DEFAULT_ALLOCATOR
@@ -22,21 +28,7 @@
 #define NK_INCLUDE_STANDARD_IO
 #define NK_INCLUDE_STANDARD_VARARGS
 
-#if defined(__GNUC__) /* needed for supress warnings in nuklear headers */
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#elif defined (__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-variable"
-#endif
-
 #include "nuklear/nuklear.h"
-
-#if defined(__GNUC__)
-#pragma GCC diagnostic pop
-#elif defined (__clang__)
-#pragma clang diagnostic pop
-#endif
 
 #else
 #pragma message "nuklear already included"
@@ -838,7 +830,8 @@ static int nk_love_wheelmoved_event(struct nk_context *ctx, int x, int y)
  */
 
 //I shaw be creating one of it here
-struct nk_love_context *nk_love_get_ui(struct lua_State *L)
+NK_LOVE_EXPORT struct nk_love_context *
+nk_love_get_ui(struct lua_State *L)
 {
 	lua_getfield(L, LUA_REGISTRYINDEX, "nuklear"); //1
 	lua_getfield(L, -1, "newui");
@@ -847,7 +840,8 @@ struct nk_love_context *nk_love_get_ui(struct lua_State *L)
 	return context;
 }
 
-void nk_love_getfield_ui(struct lua_State *L)
+NK_LOVE_EXPORT void
+nk_love_getfield_ui(struct lua_State *L)
 {
 	lua_getfield(L, LUA_REGISTRYINDEX, "nuklear"); //1
 	lua_getfield(L, -1, "newui");
@@ -856,7 +850,8 @@ void nk_love_getfield_ui(struct lua_State *L)
 	(void)context;
 }
 
-struct nk_love_context *nk_love_new_ui(struct lua_State *L, struct nk_context *ctx)
+NK_LOVE_EXPORT struct nk_love_context *
+nk_love_new_ui(struct lua_State *L, struct nk_context *ctx)
 {
 	lua_getfield(L, LUA_REGISTRYINDEX, "nuklear"); //1
 	struct nk_love_context *context = //2
@@ -884,8 +879,8 @@ struct nk_love_context *nk_love_new_ui(struct lua_State *L, struct nk_context *c
 	return context;
 }
 
-
-void nk_love_destroy(lua_State *L, struct nk_love_context *context)
+NK_LOVE_EXPORT void
+nk_love_destroy(lua_State *L, struct nk_love_context *context)
 {
 	lua_getfield(L, LUA_REGISTRYINDEX, "nuklear"); //1
 	lua_pushnil(L); //2
@@ -4024,7 +4019,7 @@ static int nk_love_font_callback(lua_State *L)
 	lua_setfield(L, -2, name)
 
 
-LUALIB_API int luaopen_nuklear(lua_State *lua_State)
+NK_LOVE_EXPORT int luaopen_nuklear(lua_State *lua_State)
 {
 	L = lua_State;
 

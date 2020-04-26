@@ -20,6 +20,7 @@ TARGET_INCLUDE_DIRECTORIES(${LIB_NAME}
   )
 TARGET_COMPILE_OPTIONS(${LIB_NAME}
   INTERFACE
+  "-fvisibility=hidden"
   "-Wno-type-limits"
   "-Wno-sign-compare"
   )
