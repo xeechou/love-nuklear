@@ -24,22 +24,13 @@ foreach a : global_args_maybe
   endif
 endforeach
 
-if get_option('buildtype') == 'release' and cc.has_argument(a)
-  global_args += '-fvisibility=hidden' #this options hides most
+if get_option('buildtype') == 'release' and cc.has_argument('-fvisibility=hidden')
+  global_args += '-fvisibility=hidden'
 endif
 
 dep_lua = dependency('lua', version: '>= 5.3', required: true)
 
-lib_nklua = static_library(
-  'nklua',
-  'src/nuklear_love.c',
-  c_args : global_args,
-  include_directories: include_directories('src'),
-  dependencies : dep_lua,
-)
-
 dep_nklua = declare_dependency(
-  link_with : lib_nklua,
   include_directories : include_directories('src'),
   compile_args : global_args,
   dependencies : dep_lua,
