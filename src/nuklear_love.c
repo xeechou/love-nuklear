@@ -28,7 +28,23 @@
 #define NK_INCLUDE_STANDARD_IO
 #define NK_INCLUDE_STANDARD_VARARGS
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-compare"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
 #include "nuklear/nuklear.h"
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 
 #else
 #pragma message "nuklear already included"
@@ -2427,7 +2443,7 @@ static int nk_love_slider(lua_State *L)
 static int nk_love_progress(lua_State *L)
 {
 	int argc = lua_gettop(L);
-	nk_love_assert_argc(argc >= 3 || argc <= 4);
+	nk_love_assert_argc(argc >= 3 && argc <= 4);
 	struct nk_love_context *context = nk_love_checkcontext(1);
 	nk_size max = luaL_checkinteger(L, 3);
 	int modifiable = 0;
