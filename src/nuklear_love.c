@@ -23,31 +23,7 @@
 #endif
 
 #ifndef NK_NUKLEAR_H_
-#define NK_INCLUDE_DEFAULT_ALLOCATOR
-#define NK_INCLUDE_FIXED_TYPES
-#define NK_INCLUDE_STANDARD_IO
-#define NK_INCLUDE_STANDARD_VARARGS
-
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wsign-compare"
-#pragma clang diagnostic ignored "-Wunused-variable"
-#elif defined(__GNUC__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-compare"
-#pragma GCC diagnostic ignored "-Wunused-variable"
-#endif
-
-#include "nuklear/nuklear.h"
-
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#elif defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-
-#else
-#pragma message "nuklear already included"
+#error nuklear.h not included before nuklear_love.h
 #endif
 
 /*
@@ -4220,6 +4196,7 @@ NK_LOVE_EXPORT int luaopen_nuklear(lua_State *lua_State)
 	static const struct luaL_Reg regs[] = {
 		{"imageCallback", nk_love_image_callback},
 		{"fontCallback", nk_love_font_callback},
+		{NULL, NULL}
 	};
 	luaL_newlib(L, regs);
 	/* lua_newtable(L); */
